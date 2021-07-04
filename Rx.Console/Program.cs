@@ -72,13 +72,13 @@
             //    .Delay(TimeSpan.FromSeconds(2)) //Producer
             //    .Subscribe(n => Console.WriteLine(n)); //Consumer
 
-            IObservable<int> p = Observable.Generate(1
+            IObservable<int> producer = Observable.Generate(1
                 , n => (n <= 20)
                 , n => n + 1
                 , n => n
                 , _ => TimeSpan.FromSeconds(1)).Where(n => n % 2 == 0);
 
-            using (IDisposable s = p.Subscribe(n => Console.WriteLine(n)))
+            using (IDisposable consumer = producer.Subscribe(n => Console.WriteLine(n)))
             {
                 Console.WriteLine("Press enter to dispose subscription");
 
